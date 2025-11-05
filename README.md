@@ -4,7 +4,7 @@
 A lightweight, privacy-focused web app that demonstrates how to provision application accounts:
 generate bcrypt hashes, build SQL statements, run quick duplicate checks and
 optionally execute the statements against sandbox PostgreSQL environments. This
-repository is a NDA-safe rewrite of an internal tool and runs entirely on your
+repository is a safe rewrite of an internal tool and runs entirely on your
 machine with dummy data. It is built for internal teams and can be deployed on
 standard CPU-only infrastructure—no GPU required. The app demonstrates principles of AI Ops and integration of LLM in infrastructure processes.
 
