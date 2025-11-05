@@ -2,10 +2,8 @@
 """
 Central configuration for the demo-friendly access provisioning app.
 
-The original project depended on company-specific infrastructure (Keycloak realms,
-VPN hostnames, etc.). This module now ships with safe defaults that can run
-entirely on a developer laptop while still allowing optional overrides for more
-advanced deployments.
+The original project depended on specific infrastructure (Keycloak realms,
+VPN hostnames, etc.).
 """
 
 import os
