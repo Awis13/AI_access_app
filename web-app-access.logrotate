@@ -1,0 +1,24 @@
+/var/log/web-app-access/web-app-access.log {
+    daily
+    rotate 30
+    compress
+    delaycompress
+    missingok
+    notifempty
+    create 644 root root
+    postrotate
+        # Reload application if needed (optional)
+        # This would require the application to support log rotation signals
+        # echo "Logs rotated for web-app-access" >> /var/log/web-app-access/rotation.log
+    endscript
+}
+
+/var/log/web-app-access/web-app-access.log.size {
+    size 10M
+    rotate 5
+    compress
+    delaycompress
+    missingok
+    notifempty
+    create 644 root root
+}

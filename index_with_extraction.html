@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Access Query Generator</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <!-- User Authentication Bar -->
+        <div class="auth-bar" id="authBar">
+            <div class="user-info" id="userInfo" style="display: none;">
+                <span id="userName"></span>
+                <span class="user-roles" id="userRoles"></span>
+                <a href="/logout" class="logout-btn">Logout</a>
+            </div>
+            <div class="login-prompt" id="loginPrompt"></div>
+        </div>
+        
+        <h1>Access Query Generator</h1>
+        
+        <!-- Text Extraction Section -->
+        <div class="extraction-section">
+            <h2>🤖 AI Text Extraction</h2>
+            <p>Paste text containing user information and let AI extract the data automatically:</p>
+            <textarea id="extractionInput" placeholder="Example:
+Name: Jane Doe
+Email: jane.doe@example.com
+
+Or paste any text containing name and email..." rows="8"></textarea>
+            <div class="extraction-buttons">
+                <button type="button" id="extractBtn" class="extract-btn">🤖 Extract with AI</button>
+                <button type="button" id="clearExtractBtn" class="clear-btn">Clear</button>
+            </div>
+            <div id="extractionStatus" class="extraction-status"></div>
+        </div>
+        
+        <form id="userForm">
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="appKey">Application:</label>
+                    <select id="appKey" name="appKey"></select>
+                </div>
+                <div class="form-group">
+                    <label for="dbEnv">Environment:</label>
+                    <select id="dbEnv" name="dbEnv"></select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="login">Login:</label>
+                <input type="text" id="login" name="login" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="name">Full Name:</label>
+                <input type="text" id="name" name="name" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+            
+            <div class="form-group">
+                <button type="button" id="checkUserBtn">🔎 Check if user exists</button>
+                <div id="userCheckStatus" class="db-status" style="margin-top:8px;"></div>
+            </div>
+            
+            <div class="form-group">
+                <label for="generatedPassword">Password:</label>
+                <input type="text" id="generatedPassword" name="generatedPassword" placeholder="Enter password or use generated one">
+                <button type="button" id="generatePasswordBtn">Generate Random</button>
+            </div>
+            
+            <div class="form-group">
+                <label for="enabled">Enabled:</label>
+                <select id="enabled" name="enabled">
+                    <option value="true" selected>True</option>
+                    <option value="false">False</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="language">Language:</label>
+                <input type="text" id="language" name="language" value="EN" maxlength="2">
+            </div>
+            
+            <div class="form-group">
+                <label for="roleId">Role ID:</label>
+                <input type="number" id="roleId" name="roleId" value="1" min="1">
+            </div>
+            
+            <button type="submit">Generate Queries</button>
+        </form>
+        
+        <div id="results" class="results hidden">
+            <h2>Generated SQL Query</h2>
+            
+            <div class="password-display">
+                <h3>Login Credentials:</h3>
+                <div class="credentials-container">
+                    <div class="password-value" id="passwordDisplay"></div>
+                    <button class="copy-btn-inline" data-target="passwordDisplay">Copy Credentials</button>
+                </div>
+            </div>
+            
+            <div class="query-section">
+                <h3>Complete SQL Transaction:</h3>
+                <textarea id="completeQuery" readonly></textarea>
+                <div class="query-buttons">
+                    <button class="copy-btn" data-target="completeQuery">Copy Query</button>
+                    <button id="sendToDbBtn" class="send-db-btn">Send to Database</button>
+                </div>
+                <div id="dbStatus" class="db-status"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+    <script src="extraction.js"></script>
+    <script>
+      let authMode = 'demo';
+
+      // Check authentication status and populate user info
+      async function checkAuthStatus() {
+        try {
+          const res = await fetch('/api/user');
+          if (res.ok) {
+            const user = await res.json();
+            displayUserInfo(user);
+            return true;
+          } else if (res.status === 500) {
+            // Authentication not configured
+            displayAuthError();
+            return false;
+          } else {
+            displayLoginPrompt();
+            return false;
+          }
+        } catch (e) {
+          console.warn('Failed to check auth status:', e);
+          displayLoginPrompt();
+          return false;
+        }
+      }
+      
+      function displayUserInfo(user) {
+        const userInfo = document.getElementById('userInfo');
+        const loginPrompt = document.getElementById('loginPrompt');
+        const userName = document.getElementById('userName');
+        const userRoles = document.getElementById('userRoles');
+        
+        userName.textContent = user.name || user.email || user.preferred_username || 'User';
+        userRoles.textContent = user.roles && user.roles.length > 0 ? `(${user.roles.join(', ')})` : '';
+        
+        userInfo.style.display = 'block';
+        loginPrompt.style.display = 'none';
+      }
+      
+      function displayLoginPrompt() {
+        const userInfo = document.getElementById('userInfo');
+        const loginPrompt = document.getElementById('loginPrompt');
+        
+        userInfo.style.display = 'none';
+        if (authMode === 'oidc') {
+          loginPrompt.innerHTML = '<a href="/login" class="login-btn">Login with SSO</a>';
+        } else {
+          loginPrompt.innerHTML = '<span class="demo-badge">Demo mode: authentication not required</span>';
+        }
+        loginPrompt.style.display = 'block';
+      }
+      
+      function displayAuthError() {
+        const userInfo = document.getElementById('userInfo');
+        const loginPrompt = document.getElementById('loginPrompt');
+        
+        userInfo.style.display = 'none';
+        loginPrompt.innerHTML = '<span style="color: red; font-weight: bold;">Authentication not configured - contact administrator</span>';
+        loginPrompt.style.display = 'block';
+      }
+
+      // Populate apps and env dropdowns on load
+      document.addEventListener('DOMContentLoaded', async function() {
+        // First check authentication
+        const isAuthenticated = await checkAuthStatus();
+        
+        if (!isAuthenticated) {
+          return; // Don't load config if not authenticated
+        }
+        
+        try {
+          const res = await fetch('/api/config');
+          if (!res.ok) {
+            if (res.status === 401) {
+              displayLoginPrompt();
+              return;
+            }
+            return;
+          }
+          const cfg = await res.json();
+          authMode = cfg.authMode || 'demo';
+          const appSel = document.getElementById('appKey');
+          const envSel = document.getElementById('dbEnv');
+
+          const apps = Array.isArray(cfg.apps) ? cfg.apps : [];
+          // populate apps
+          appSel.innerHTML = '';
+          apps.forEach(a => {
+            const opt = document.createElement('option');
+            opt.value = a.key;
+            opt.textContent = a.label || a.key;
+            appSel.appendChild(opt);
+          });
+          // select default app
+          if (cfg.defaultApp) appSel.value = cfg.defaultApp;
+
+          const updateEnvs = () => {
+            const current = apps.find(a => a.key === appSel.value) || apps[0];
+            envSel.innerHTML = '';
+            (current?.environments || []).forEach(e => {
+              const opt = document.createElement('option');
+              opt.value = e;
+              opt.textContent = e;
+              envSel.appendChild(opt);
+            });
+            if (current?.defaultEnv && (current.environments || []).includes(current.defaultEnv)) {
+              envSel.value = current.defaultEnv;
+            }
+            // Trigger downstream regeneration after environments are updated
+            envSel.dispatchEvent(new Event('change'));
+          };
+
+          appSel.addEventListener('change', updateEnvs);
+          updateEnvs();
+        } catch (e) {
+          console.warn('Failed to load config:', e);
+          if (e.name === 'TypeError' && e.message.includes('fetch')) {
+            displayLoginPrompt();
+          }
+        }
+      });
+    </script>
+</body>
+</html>

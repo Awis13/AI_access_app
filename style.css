@@ -1,0 +1,456 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background-color: #f5f5f5;
+    color: #333;
+    line-height: 1.6;
+}
+
+.container {
+    max-width: 800px;
+    margin: 2rem auto;
+    padding: 0 1rem;
+}
+
+/* Authentication Bar */
+.auth-bar {
+    background: white;
+    padding: 12px 20px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    border: 1px solid #ddd;
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.user-info span {
+    font-weight: 500;
+    color: #2c3e50;
+}
+
+.user-roles {
+    color: #666;
+    font-size: 0.9em;
+    font-weight: normal;
+}
+
+.login-btn, .logout-btn {
+    background: #3498db;
+    color: white;
+    padding: 8px 16px;
+    text-decoration: none;
+    border-radius: 4px;
+    font-size: 0.9em;
+    transition: background-color 0.3s;
+    border: none;
+    cursor: pointer;
+}
+
+.logout-btn {
+    background: #e74c3c;
+}
+
+.login-btn:hover {
+    background: #2980b9;
+}
+
+.logout-btn:hover {
+    background: #c0392b;
+}
+
+.login-prompt {
+    text-align: center;
+}
+
+.demo-badge {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 4px;
+    background: #e7f4ff;
+    color: #0366d6;
+    font-weight: 600;
+}
+
+h1 {
+    text-align: center;
+    color: #2c3e50;
+    margin-bottom: 2rem;
+    font-size: 2rem;
+}
+
+h2 {
+    color: #2c3e50;
+    margin-bottom: 1.5rem;
+    font-size: 1.5rem;
+}
+
+h3 {
+    color: #34495e;
+    margin-bottom: 0.5rem;
+    font-size: 1.1rem;
+}
+
+form {
+    background: white;
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 2rem;
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+    color: #555;
+}
+
+input, select {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 1rem;
+    transition: border-color 0.2s;
+}
+
+input:focus, select:focus {
+    outline: none;
+    border-color: #3498db;
+    box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
+}
+
+button {
+    background-color: #3498db;
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 4px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+button:hover {
+    background-color: #2980b9;
+}
+
+button:active {
+    transform: translateY(1px);
+}
+
+.results {
+    background: white;
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.hidden {
+    display: none;
+}
+
+.query-section {
+    margin-bottom: 2rem;
+    position: relative;
+}
+
+.query-section:last-child {
+    margin-bottom: 0;
+}
+
+textarea {
+    width: 100%;
+    min-height: 300px;
+    padding: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+    font-size: 0.9rem;
+    resize: vertical;
+    background-color: #f8f9fa;
+}
+
+.copy-btn {
+    position: absolute;
+    top: 2rem;
+    right: 0.5rem;
+    background-color: #27ae60;
+    padding: 0.5rem 1rem;
+    font-size: 0.9rem;
+}
+
+.copy-btn:hover {
+    background-color: #229954;
+}
+
+.copy-btn.copied {
+    background-color: #2ecc71;
+}
+
+.password-display {
+    margin-bottom: 2rem;
+    padding: 1rem;
+    background-color: #f8f9fa;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+}
+
+.credentials-container {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 0.5rem 0;
+}
+
+.password-value {
+    font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: #2c3e50;
+    background-color: white;
+    border: 1px solid #ddd;
+    padding: 0.75rem;
+    border-radius: 4px;
+    word-break: break-all;
+    flex: 1;
+}
+
+.copy-btn-inline {
+    background: #27ae60;
+    color: white;
+    border: none;
+    padding: 0.75rem 1rem;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    white-space: nowrap;
+}
+
+.copy-btn-inline:hover {
+    background: #229954;
+}
+
+.copy-btn-inline.copied {
+    background: #2ecc71;
+}
+
+@media (max-width: 768px) {
+    .container {
+        margin: 1rem auto;
+        padding: 0 0.5rem;
+    }
+    
+    form, .results {
+        padding: 1.5rem;
+    }
+    
+    .copy-btn {
+        position: static;
+        margin-top: 0.5rem;
+        width: 100%;
+    }
+}
+/* AI Extraction Section Styles */
+.extraction-section {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 30px;
+    color: white;
+}
+
+.extraction-section h2 {
+    margin-top: 0;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.extraction-section textarea {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 4px;
+    font-size: 14px;
+    font-family: 'Courier New', monospace;
+    resize: vertical;
+    min-height: 150px;
+}
+
+.extraction-buttons {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.extract-btn {
+    background: #4CAF50;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background 0.3s;
+}
+
+.extract-btn:hover:not(:disabled) {
+    background: #45a049;
+}
+
+.extract-btn:disabled {
+    background: #cccccc;
+    cursor: not-allowed;
+}
+
+.clear-btn {
+    background: #ff6b6b;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.clear-btn:hover {
+    background: #ff5252;
+}
+
+.extraction-status {
+    margin-top: 10px;
+    padding: 10px;
+    border-radius: 4px;
+    display: none;
+    font-weight: bold;
+}
+
+.extraction-status.info {
+    background: rgba(33, 150, 243, 0.2);
+    color: #1976D2;
+}
+
+.extraction-status.success {
+    background: rgba(76, 175, 80, 0.2);
+    color: #388E3C;
+}
+
+.extraction-status.warning {
+    background: rgba(255, 193, 7, 0.2);
+    color: #F57C00;
+}
+
+.extraction-status.error {
+    background: rgba(244, 67, 54, 0.2);
+    color: #C62828;
+}
+
+/* Database integration styles */
+.send-db-btn {
+    background: #e74c3c;
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    margin-left: 8px;
+}
+
+.send-db-btn:hover {
+    background: #c0392b;
+}
+
+.send-db-btn:disabled {
+    background: #95a5a6;
+    cursor: not-allowed;
+}
+
+.query-buttons {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+.db-status {
+    margin-top: 12px;
+    padding: 12px;
+    border-radius: 4px;
+    font-size: 14px;
+    display: none;
+}
+
+.db-status.success {
+    background-color: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+    display: block;
+}
+
+.db-status.error {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+    display: block;
+}
+
+.db-status.info {
+    background-color: #d1ecf1;
+    color: #0c5460;
+    border: 1px solid #bee5eb;
+    display: block;
+}
+
+/* User creation detail view */
+.detail-section {
+    margin-top: 1.5rem;
+}
+
+.detail-header {
+    font-size: 1.1em;
+    font-weight: 600;
+    color: #2c3e50;
+    margin-bottom: 0.75rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid #eee;
+}
+
+.detail-grid {
+    display: grid;
+    grid-template-columns: 150px 1fr;
+    gap: 0.5rem 1rem;
+}
+
+.detail-item {
+    display: contents; /* Allows children to participate in the grid */
+}
+
+.detail-key {
+    font-weight: 500;
+    color: #555;
+    text-align: right;
+}
+
+.detail-value {
+    font-family: 'Menlo', 'Monaco', monospace;
+    color: #333;
+    word-break: break-all;
+}
