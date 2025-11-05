@@ -1,11 +1,12 @@
 # Access Provisioning Demo
+## AI-powered Infrastructure Automation Example
 
 A lightweight, privacy-focused web app that demonstrates how to provision application accounts:
 generate bcrypt hashes, build SQL statements, run quick duplicate checks and
 optionally execute the statements against sandbox PostgreSQL environments. This
 repository is a NDA-safe rewrite of an internal tool and runs entirely on your
 machine with dummy data. It is built for internal teams and can be deployed on
-standard CPU-only infrastructure—no GPU required.
+standard CPU-only infrastructure—no GPU required. The app demonstrates principles of AI Ops and integration of LLM in infrastructure processes.
 
 ## Key Features
 - Single-page UI with copy-ready SQL transactions and password previews.
@@ -15,6 +16,7 @@ standard CPU-only infrastructure—no GPU required.
 - Log rotation and password-hash masking for safer diagnostics.
 - Pluggable auth: demo mode out-of-the-box, OpenID Connect when needed.
 - CPU-friendly deployment: the default Ollama setup runs comfortably without a GPU.
+- Jenkins/Ansible-ready design for real-world automation pipelines.
 
 ## Demo Walkthrough (3 minutes)
 1. Start the stack with `docker-compose up --build` (spins up Flask + three Postgres instances).
@@ -94,6 +96,7 @@ curl -s -X POST localhost:5000/api/db/execute \
 - `docker-compose.yml` – three isolated Postgres services plus the Flask app.
 - `init.sql` – schema + seed users copied into each database at container start.
 - `config.py` – environment overrides, Keycloak toggle, Ollama settings, logging targets.
+- The stack easily integrates into existing CI/CD pipelines (e.g., Jenkins or GitLab CI) and Keycloak/Active Directory environments.
 
 ## Troubleshooting
 - **Ollama connection refused**: start the Ollama service (`ollama serve`) and pull the configured model (`ollama pull gemma3:4b`).
@@ -111,3 +114,4 @@ curl -s -X POST localhost:5000/api/db/execute \
   trusted input only.
 - Password hashes and similar secrets are masked in application logs, and log
   rotation is enabled by default.
+
