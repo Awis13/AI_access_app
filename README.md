@@ -86,8 +86,7 @@ curl -s -X POST localhost:5000/api/db/execute \
 - **AI extraction**: defaults to the `gemma3:4b` model. Adjust `OLLAMA_BASE_URL` and
   `LLM_MODEL_NAME` if you run a different model/server.
   - For CPU-only servers set `OLLAMA_NUM_PARALLEL=1` (or similar) to keep inference responsive.
-- **Logging**: `LOG_FILE` and `LOG_LEVEL` configure application logs. See
-  `setup-log-rotation.sh` for optional system logrotate integration.
+- **Logging**: `LOG_FILE` and `LOG_LEVEL` configure application logs.
 
 ## API Overview
 - `GET /api/config` – list demo apps, environments and auth mode.
