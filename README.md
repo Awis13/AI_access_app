@@ -18,14 +18,21 @@ standard CPU-only infrastructure—no GPU required. The app demonstrates princip
 - CPU-friendly deployment: the default Ollama setup runs comfortably without a GPU.
 - Jenkins/Ansible-ready design for real-world automation pipelines.
 
-## Demo Walkthrough (3 minutes)
-1. Start the stack with `docker-compose up --build` (spins up Flask + three Postgres instances).
-2. Paste a request like `Need access for Jana Novaková (jana.novakova@example.com)` into the AI extractor and click **🤖 Extract with AI**.
-3. Watch the form auto-populate, generate fresh credentials, and render the SQL transaction.
-4. Run **🔎 Check if user exists** to show duplicate detection, then hit **Send to Database** to create the account in the demo DB.
-5. Point out the rotating log files (`logs/`) and the masked hashes to underscore production-readiness.
+## Demo Preview
 
-![Demo walkthrough showing AI extraction through user creation](demo-walkthrough.gif)
+A short animation showing the extraction, SQL generation, and execution flow:
+
+![AI Access App Demo](demo_walkthrough.gif)
+
+## How It Works
+
+This section explains the overall workflow of the app and what happens under the hood.
+
+1. Launch the stack with `docker-compose up --build` — this brings up a Flask backend and three isolated PostgreSQL environments.
+2. The AI extractor parses a request like “Need access for Jana Novaková (jana.novakova@example.com)” and automatically fills in login, full name, and email fields.
+3. The app then generates secure credentials, produces a ready-to-run SQL transaction, and runs a quick duplicate check in the target database.
+4. Once validated, the SQL transaction can be executed directly against the demo databases to simulate account creation.
+5. Application logs are automatically rotated and sensitive data such as password hashes are masked to reflect production-grade security and reliability.
 
 ## Getting Started
 
@@ -114,4 +121,3 @@ curl -s -X POST localhost:5000/api/db/execute \
   trusted input only.
 - Password hashes and similar secrets are masked in application logs, and log
   rotation is enabled by default.
-
