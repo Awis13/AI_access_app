@@ -112,8 +112,6 @@ curl -s -X POST localhost:5000/api/db/execute \
 - **Auth redirect loops**: if you set `AUTH_MODE=oidc`, double-check all Keycloak
   settings and redirect URLs.
 
-# AI_access_app
-
 ## Security Notes
 - Shipping demo credentials is intentional. Replace them before targeting non-demo
   infrastructure.
