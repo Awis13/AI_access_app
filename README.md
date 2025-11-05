@@ -22,7 +22,7 @@ standard CPU-only infrastructure—no GPU required. The app demonstrates princip
 
 A short animation showing the extraction, SQL generation, and execution flow:
 
-![AI Access App Demo](demo_walkthrough.gif)
+![Demo walkthrough showing AI extraction through user creation](demo-walkthrough.gif)
 
 ## How It Works
 
