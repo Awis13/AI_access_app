@@ -1,11 +1,6 @@
 #!/usr/bin/env python3
 """
 Flask server for generating bcrypt hashes and extracting user info with AI.
-
-The original internal tool required Keycloak SSO. For the public demo we keep
-the same routes but default to a lightweight sessionless "demo" mode. Setting
-AUTH_MODE=oidc alongside the required Keycloak environment variables re-enables
-the enterprise flow.
 """
 
 from flask import Flask, request, jsonify, send_from_directory, session, redirect, url_for, g
